@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
-
+#import "nmLiveWatchTabbar.h"
+#import "nmWatchPlayVC.h"
+#import "WXApi.h"
 @interface AppDelegate ()
 
 @end
@@ -16,7 +18,15 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    //com.nmNet.nmLiveWatch
+    [WXApi registerApp:WECHATLOGIN];
+     //registerApp:@"wxd1931d4a0e46****" withDescription:@"Wechat"];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [self.window makeKeyAndVisible];
+    nmLiveWatchTabbar *liveWatchTabbar =[[nmLiveWatchTabbar alloc]init];
+    self.window.rootViewController =liveWatchTabbar;
+    
     return YES;
 }
 
@@ -46,6 +56,11 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    
+    nmWatchPlayVC * loginVC = [[nmWatchPlayVC alloc] init];
+    BOOL res = [WXApi handleOpenURL:url delegate:loginVC];
+    return res;
+}
 
 @end

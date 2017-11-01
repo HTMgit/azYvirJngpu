@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="42" id="2mb-7t-DKw" customClass="LPConMsgCell">
+            <rect key="frame" x="0.0" y="0.0" width="194" height="42"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2mb-7t-DKw" id="hAq-NK-oQ7">
+                <rect key="frame" x="0.0" y="0.0" width="194" height="41.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view alpha="0.5" tag="1216030" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GVr-s6-gF1">
+                        <rect key="frame" x="0.0" y="2" width="194" height="36.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ji3-KI-sOs">
+                        <rect key="frame" x="0.0" y="2.5" width="194" height="36.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" tag="12160311" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="qweqweqwe " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a26-zg-RBC">
+                                <rect key="frame" x="3" y="3" width="78.5" height="30.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="a26-zg-RBC" firstAttribute="top" secondItem="Ji3-KI-sOs" secondAttribute="top" constant="3" id="4re-uv-XhU"/>
+                            <constraint firstAttribute="bottom" secondItem="a26-zg-RBC" secondAttribute="bottom" constant="3" id="7bY-cM-6Y8"/>
+                            <constraint firstItem="a26-zg-RBC" firstAttribute="leading" secondItem="Ji3-KI-sOs" secondAttribute="leading" constant="3" id="wQU-Cz-DNj"/>
+                            <constraint firstItem="a26-zg-RBC" firstAttribute="width" relation="lessThanOrEqual" secondItem="Ji3-KI-sOs" secondAttribute="width" constant="-6" id="xM6-cb-CHM"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="12"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="Ji3-KI-sOs" firstAttribute="top" secondItem="GVr-s6-gF1" secondAttribute="top" id="AJx-14-XW6"/>
+                    <constraint firstItem="Ji3-KI-sOs" firstAttribute="trailing" secondItem="GVr-s6-gF1" secondAttribute="trailing" id="Qsr-0l-755"/>
+                    <constraint firstItem="Ji3-KI-sOs" firstAttribute="leading" secondItem="GVr-s6-gF1" secondAttribute="leading" id="U4J-OS-LxO"/>
+                    <constraint firstAttribute="trailing" secondItem="Ji3-KI-sOs" secondAttribute="trailing" id="WHo-kF-f7Q"/>
+                    <constraint firstAttribute="bottom" secondItem="Ji3-KI-sOs" secondAttribute="bottom" constant="2.5" id="XS9-au-YIe"/>
+                    <constraint firstItem="Ji3-KI-sOs" firstAttribute="top" secondItem="hAq-NK-oQ7" secondAttribute="top" constant="2.5" id="cFM-v1-izn"/>
+                    <constraint firstItem="Ji3-KI-sOs" firstAttribute="bottom" secondItem="GVr-s6-gF1" secondAttribute="bottom" id="h2j-oK-im4"/>
+                    <constraint firstItem="Ji3-KI-sOs" firstAttribute="leading" secondItem="hAq-NK-oQ7" secondAttribute="leading" id="huX-T9-Qmf"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="-93" y="23"/>
+        </tableViewCell>
+    </objects>
+</document>
