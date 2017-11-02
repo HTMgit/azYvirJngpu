@@ -37,10 +37,13 @@ static int num = 1;
     userTableView.sectionHeaderHeight = 20;
     [self.view addSubview:userTableView];
 //    [self.view addSubview:[self creatFootView]];
-    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary * dicUserInfo = [userDefaults objectForKey:@"userInfo"];
+    NSUserDefaults * userDef = [NSUserDefaults standardUserDefaults];
+    NSDictionary * dicUserInfo =[userDef objectForKey:@"watcherUserInfo"];
+    
     if(dicUserInfo){
         NSError * transforError ;
+        NSLog(@"%@",dicUserInfo);
+      LPlivingRoomModel * userInfo = [LPlivingRoomModel arrayOfModelsFromDictionaries:@[dicUserInfo] error:&transforError].lastObject;
         userInformation = [LPuserModel arrayOfModelsFromDictionaries:@[dicUserInfo] error:&transforError].lastObject;
     }else{
         [ZYHCommonService showMakeToastView:@"用户不存在"];

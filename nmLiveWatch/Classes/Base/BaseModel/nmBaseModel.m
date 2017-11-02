@@ -19,4 +19,7 @@
 @end
 
 @implementation LPuserModel
-@end                        
+@end
+
+@implementation LPlivingRoomModel
+@end

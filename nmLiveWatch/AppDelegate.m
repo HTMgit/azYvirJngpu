@@ -19,7 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //com.nmNet.nmLiveWatch
-    [WXApi registerApp:WECHATLOGIN];
+    [WXApi registerApp:WECHATLOGIN enableMTA:YES];
      //registerApp:@"wxd1931d4a0e46****" withDescription:@"Wechat"];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -58,7 +58,7 @@
 }
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     
-    nmWatchPlayVC * loginVC = [[nmWatchPlayVC alloc] init];
+    nmWatchPlayVC * loginVC = [nmWatchPlayVC shareInstance];
     BOOL res = [WXApi handleOpenURL:url delegate:loginVC];
     return res;
 }

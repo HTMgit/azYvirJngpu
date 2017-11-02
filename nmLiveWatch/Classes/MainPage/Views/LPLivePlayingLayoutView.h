@@ -17,6 +17,8 @@
 @optional
 -(void)livePlayingLayout:(int)btnNum sender:(id)sender;
 -(void)livePlayingSendMsg:(NSString *)sendMsg sender:(id)sender;
+//type :1-声音，2-亮度
+-(void)livePlayingChangeViewShow:(float)valeNum type:(int)type;
 @end
 
 @interface LPLivePlayingLayoutView : UIView<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>{
@@ -40,6 +42,7 @@
     BOOL isKeyShow;
     BOOL keyboardShown;
     BOOL isMove;//是否需要移动添加框
+    CGPoint panPoint;
     
 }
 
@@ -54,6 +57,8 @@
 -(id)initWithFrame:(CGRect)frame;
 -(void)setViewFrame;
 -(void)setLayoutView;
+-(void)setClearTxtView;
+-(void)changeTxtShow:(BOOL)isShow;
 -(void)setWatcherNum:(int)watcherNum;
 -(void)reloadConversationTabelView:(NSArray *)arrNewText;
 @end

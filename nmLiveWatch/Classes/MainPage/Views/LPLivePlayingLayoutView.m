@@ -24,6 +24,10 @@
     UITapGestureRecognizer * tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(actionTapSelf)];
     [self addGestureRecognizer:tap];
     
+    UIPanGestureRecognizer * leftPanGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(actionChangeVolume:)];
+    [self addGestureRecognizer:leftPanGesture];
+    
+    
     [self loadViewInit];
     [self setLayoutView];
     [self setViewFrame];
@@ -226,7 +230,9 @@
     [talkTableView reloadData];
     dispatch_async(dispatch_get_main_queue(), ^{
         if(talkTableView.contentSize.height>talkTableView.bounds.size.height){
-            [talkTableView setContentOffset:CGPointMake(0, talkTableView.contentSize.height-talkTableView.bounds.size.height)];
+//            [talkTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_arrText.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+//            [talkTableView setContentOffset:CGPointMake(0, talkTableView.contentSize.height-talkTableView.bounds.size.height) animated:NO];
+//            [talkTableView setContentOffset:CGPointMake(0, talkTableView.contentSize.height-talkTableView.bounds.size.height)];
         }
     });
 }
@@ -446,16 +452,19 @@
 
 -(void)actionShowKey{
     
-    NSUserDefaults * userDefaults =[NSUserDefaults standardUserDefaults];
-    NSDictionary * dicHaveLoad =[userDefaults objectForKey:@"userHaveLoad"];
-    NSString *accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"WX_ACCESS_TOKEN"];
-    NSString *openID = [[NSUserDefaults standardUserDefaults] objectForKey:@"WX_OPEN_ID"];
+//    NSUserDefaults * userDefaults =[NSUserDefaults standardUserDefaults];
+//    NSDictionary * dicHaveLoad =[userDefaults objectForKey:@"userHaveLoad"];
+//    NSString *accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"WX_ACCESS_TOKEN"];
+//    NSString *openID = [[NSUserDefaults standardUserDefaults] objectForKey:@"WX_OPEN_ID"];
+    
+    
+    NSUserDefaults * userDef = [NSUserDefaults standardUserDefaults];
+//    [userDef setObject:dicResult forKey:@"getWeChatPremiss"];
+    NSDictionary * dicHaveLoad =[userDef objectForKey:@"getWeChatPremiss"];
     
     
     
-    
-    
-    if (accessToken && openID) {
+    if (dicHaveLoad) {
         [self changeTxtShow:YES];
     }else{
         
@@ -470,7 +479,6 @@
                                    }];
         [alert show];
     }
-    
 }
 
 -(void)changeTxtShow:(BOOL)isShow{
@@ -480,6 +488,10 @@
     btnMore.hidden = isShow;
     btnSend.hidden = !isShow;
     txtTalk.hidden = !isShow;
+}
+
+-(void)setClearTxtView{
+    txtTalk.text = @"";
 }
 
 
@@ -508,6 +520,37 @@
         }
         self.frame =CGRectMake(0, 0, kNMDeviceWidth,kNMDeviceHeight);
         [self reloadConversationTabelView:nil];
+    }
+}
+
+-(void)actionChangeVolume:(UIPanGestureRecognizer *)sender{
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        panPoint = [sender translationInView:self];
+        
+    }else if (sender.state == UIGestureRecognizerStateChanged) {
+        CGPoint newPoint = [sender translationInView:self];
+        float w =fabsf(newPoint.x -panPoint.x);
+        float h = fabsf(newPoint.y - panPoint.y);
+        
+            if ([self.delegate respondsToSelector:@selector(livePlayingChangeViewShow:type:)]) {
+                if (newPoint.x<(kNMDeviceWidth/2)&&h>w) {
+                    [self.delegate livePlayingChangeViewShow:(newPoint.y - panPoint.y) type:1];
+                }else if (newPoint.x>(kNMDeviceWidth/2)&&h>w) {
+                    [self.delegate livePlayingChangeViewShow:(newPoint.y - panPoint.y) type:2];
+                    
+                }
+                
+               
+            }
+        
+    }else if (sender.state == UIGestureRecognizerStateEnded) {
+        
+    }else if (sender.state == UIGestureRecognizerStateCancelled) {
+        
+    }else if (sender.state == UIGestureRecognizerStateFailed) {
+        
+    }else{
+        
     }
 }
 

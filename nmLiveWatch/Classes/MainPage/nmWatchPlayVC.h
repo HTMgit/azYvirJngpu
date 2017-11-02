@@ -14,9 +14,12 @@
 @interface nmWatchPlayVC : nmBaseViewController <TIMMessageListener,WXApiDelegate>
 @property(nonatomic,strong)nmPlayListRoomModel * roomModel;
 @property(nonatomic ,strong)IMAConversationManager * roomConversationMgr;  // 会话列表
+
++(nmWatchPlayVC *) shareInstance;
 -(void)updateGroupAssistantList;
 -(void)signOutPlaying;
 -(void)groupAssistantListenerJoinUpdate:(NSString *)groupId updata:(NSArray *)updata;
 -(void)groupAssistantListenerQuitUpdate:(NSString *)groupId updata:(NSArray *)updata;
-
+//type :1-声音，2-亮度
+-(void)actionChangeViewShow:(float)valeNum type:(int)type;
 @end

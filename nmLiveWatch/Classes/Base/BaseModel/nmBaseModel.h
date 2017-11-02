@@ -57,3 +57,17 @@
 @property(nonatomic,assign)BOOL isZhubo;
 @property(nonatomic,assign)BOOL isBlacklist;
 @end
+
+//直播间
+@interface LPlivingRoomModel : JSONModel
+
+@property(nonatomic,strong)NSString<Optional> * stream;
+@property(nonatomic,strong)NSString<Optional> * imName;
+@property(nonatomic,strong)NSString<Optional> * zbFaceUrl;
+@property(nonatomic,strong)NSString<Optional> * sdkAppId;
+@property(nonatomic,strong)NSString<Optional> * zbNickName;
+@property(nonatomic,assign)int  userNaum;
+@property(nonatomic,strong)NSString<Optional> * imId;
+@property(nonatomic,strong)NSString<Optional> * accountType;
+@property(nonatomic,strong)NSString<Optional> * groupId;
+@property(nonatomic,strong)NSString<Optional> * imSid;

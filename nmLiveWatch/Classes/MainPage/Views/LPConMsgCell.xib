@@ -19,8 +19,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view alpha="0.5" tag="1216030" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GVr-s6-gF1">
-                        <rect key="frame" x="0.0" y="2" width="194" height="36.5"/>
+                        <rect key="frame" x="0.0" y="2" width="0.0" height="36.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" id="FUk-Ym-3M0"/>
+                        </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                 <integer key="value" value="10"/>
@@ -56,7 +59,6 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="Ji3-KI-sOs" firstAttribute="top" secondItem="GVr-s6-gF1" secondAttribute="top" id="AJx-14-XW6"/>
-                    <constraint firstItem="Ji3-KI-sOs" firstAttribute="trailing" secondItem="GVr-s6-gF1" secondAttribute="trailing" id="Qsr-0l-755"/>
                     <constraint firstItem="Ji3-KI-sOs" firstAttribute="leading" secondItem="GVr-s6-gF1" secondAttribute="leading" id="U4J-OS-LxO"/>
                     <constraint firstAttribute="trailing" secondItem="Ji3-KI-sOs" secondAttribute="trailing" id="WHo-kF-f7Q"/>
                     <constraint firstAttribute="bottom" secondItem="Ji3-KI-sOs" secondAttribute="bottom" constant="2.5" id="XS9-au-YIe"/>
