@@ -19,6 +19,9 @@
 -(void)livePlayingSendMsg:(NSString *)sendMsg sender:(id)sender;
 //type :1-声音，2-亮度
 -(void)livePlayingChangeViewShow:(float)valeNum type:(int)type;
+
+-(void)livePlayingGreateChat:(int)chatNum;
+
 @end
 
 @interface LPLivePlayingLayoutView : UIView<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>{
@@ -78,5 +81,6 @@
 -(void)setClearTxtView;
 -(void)changeTxtShow:(BOOL)isShow;
 -(void)setWatcherNum:(int)watcherNum;
+-(void)showMemberList:(NSArray *)members;
 -(void)reloadConversationTabelView:(NSArray *)arrNewText;
 @end

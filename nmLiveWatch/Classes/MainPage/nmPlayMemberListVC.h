@@ -1,5 +1,5 @@
 //
-//  nmUserVC.h
+//  nmPlayMemberListVC.h
 //  nmLiveWatch
 //
 //  Created by zyh on 2017/11/3.
@@ -8,6 +8,6 @@
 
 #import "nmBaseViewController.h"
 
-@interface nmUserVC : nmBaseViewController
+@interface nmPlayMemberListVC : nmBaseViewController
 
 @end

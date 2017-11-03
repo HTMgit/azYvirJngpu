@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060C512A1FAC7C2000A7748D /* nmUserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 060C51281FAC7C2000A7748D /* nmUserVC.m */; };
+		060C512B1FAC7C2000A7748D /* nmUserVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 060C51291FAC7C2000A7748D /* nmUserVC.xib */; };
+		060C51311FAC806C00A7748D /* nmPlayMemberListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 060C51301FAC806C00A7748D /* nmPlayMemberListVC.m */; };
 		062D52B91FA959710006CCE4 /* IMAConversationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D52B81FA959710006CCE4 /* IMAConversationManager.m */; };
 		062D52BC1FA959C10006CCE4 /* nmWatchPlayVC+IMSDKCallBack.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D52BB1FA959C10006CCE4 /* nmWatchPlayVC+IMSDKCallBack.m */; };
 		062D52C61FA9CCFA0006CCE4 /* RadioButton-Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 062D52C11FA9CCFA0006CCE4 /* RadioButton-Selected.png */; };
@@ -29,7 +32,6 @@
 		06325AFE1FA719A800879229 /* nmBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06325AFD1FA719A800879229 /* nmBaseModel.m */; };
 		06325B061FA71B7100879229 /* nmLiveWatchTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 06325B051FA71B7100879229 /* nmLiveWatchTabbar.m */; };
 		06325B091FA71C2A00879229 /* nmMainPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 06325B081FA71C2A00879229 /* nmMainPageVC.m */; };
-		06325B0C1FA71C3C00879229 /* nmUserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 06325B0B1FA71C3C00879229 /* nmUserVC.m */; };
 		06325B121FA7243F00879229 /* SUNSlideSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06325B0F1FA7243F00879229 /* SUNSlideSwitchView.m */; };
 		06325B131FA7243F00879229 /* ZYHCommonService.m in Sources */ = {isa = PBXBuildFile; fileRef = 06325B111FA7243F00879229 /* ZYHCommonService.m */; };
 		06325B161FA726C200879229 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 06325B151FA726C200879229 /* UIView+Toast.m */; };
@@ -109,6 +111,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		060C51271FAC7C2000A7748D /* nmUserVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nmUserVC.h; sourceTree = "<group>"; };
+		060C51281FAC7C2000A7748D /* nmUserVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nmUserVC.m; sourceTree = "<group>"; };
+		060C51291FAC7C2000A7748D /* nmUserVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = nmUserVC.xib; sourceTree = "<group>"; };
+		060C512F1FAC806C00A7748D /* nmPlayMemberListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nmPlayMemberListVC.h; sourceTree = "<group>"; };
+		060C51301FAC806C00A7748D /* nmPlayMemberListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nmPlayMemberListVC.m; sourceTree = "<group>"; };
 		062D52B71FA959710006CCE4 /* IMAConversationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMAConversationManager.h; sourceTree = "<group>"; };
 		062D52B81FA959710006CCE4 /* IMAConversationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMAConversationManager.m; sourceTree = "<group>"; };
 		062D52BA1FA959C10006CCE4 /* nmWatchPlayVC+IMSDKCallBack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "nmWatchPlayVC+IMSDKCallBack.h"; sourceTree = "<group>"; };
@@ -152,8 +159,6 @@
 		06325B051FA71B7100879229 /* nmLiveWatchTabbar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nmLiveWatchTabbar.m; sourceTree = "<group>"; };
 		06325B071FA71C2A00879229 /* nmMainPageVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nmMainPageVC.h; sourceTree = "<group>"; };
 		06325B081FA71C2A00879229 /* nmMainPageVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nmMainPageVC.m; sourceTree = "<group>"; };
-		06325B0A1FA71C3C00879229 /* nmUserVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nmUserVC.h; sourceTree = "<group>"; };
-		06325B0B1FA71C3C00879229 /* nmUserVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nmUserVC.m; sourceTree = "<group>"; };
 		06325B0E1FA7243F00879229 /* SUNSlideSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUNSlideSwitchView.h; sourceTree = "<group>"; };
 		06325B0F1FA7243F00879229 /* SUNSlideSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUNSlideSwitchView.m; sourceTree = "<group>"; };
 		06325B101FA7243F00879229 /* ZYHCommonService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYHCommonService.h; sourceTree = "<group>"; };
@@ -427,6 +432,8 @@
 				063F5FC51FA85AE200D77C20 /* nmWatchPlayVC.m */,
 				062D52BA1FA959C10006CCE4 /* nmWatchPlayVC+IMSDKCallBack.h */,
 				062D52BB1FA959C10006CCE4 /* nmWatchPlayVC+IMSDKCallBack.m */,
+				060C512F1FAC806C00A7748D /* nmPlayMemberListVC.h */,
+				060C51301FAC806C00A7748D /* nmPlayMemberListVC.m */,
 			);
 			path = MainPage;
 			sourceTree = "<group>";
@@ -435,8 +442,9 @@
 			isa = PBXGroup;
 			children = (
 				062D52CF1FA9D0ED0006CCE4 /* Views */,
-				06325B0A1FA71C3C00879229 /* nmUserVC.h */,
-				06325B0B1FA71C3C00879229 /* nmUserVC.m */,
+				060C51271FAC7C2000A7748D /* nmUserVC.h */,
+				060C51281FAC7C2000A7748D /* nmUserVC.m */,
+				060C51291FAC7C2000A7748D /* nmUserVC.xib */,
 				062D52CC1FA9CE2B0006CCE4 /* SCSelfInformationVC.h */,
 				062D52CD1FA9CE2B0006CCE4 /* SCSelfInformationVC.m */,
 			);
@@ -700,6 +708,7 @@
 				062D52C71FA9CCFA0006CCE4 /* RadioButton-Unselected.png in Resources */,
 				062D52D31FA9D0ED0006CCE4 /* UserRadioCell.xib in Resources */,
 				062D52D21FA9D0ED0006CCE4 /* UserFormCell.xib in Resources */,
+				060C512B1FAC7C2000A7748D /* nmUserVC.xib in Resources */,
 				062D52C61FA9CCFA0006CCE4 /* RadioButton-Selected.png in Resources */,
 				063F5FC31FA8223300D77C20 /* nmPlayRoomCell.xib in Resources */,
 				063F5FE91FA8798A00D77C20 /* LPConMsgCell.xib in Resources */,
@@ -796,7 +805,6 @@
 				06325B131FA7243F00879229 /* ZYHCommonService.m in Sources */,
 				06325B3B1FA7271700879229 /* SBJsonStreamParserAccumulator.m in Sources */,
 				063F5FC21FA8223300D77C20 /* nmPlayRoomCell.m in Sources */,
-				06325B0C1FA71C3C00879229 /* nmUserVC.m in Sources */,
 				062D52C81FA9CCFA0006CCE4 /* ZYRadioButton.m in Sources */,
 				062D52BC1FA959C10006CCE4 /* nmWatchPlayVC+IMSDKCallBack.m in Sources */,
 				06325AC11FA7187800879229 /* ViewController.m in Sources */,
@@ -810,6 +818,8 @@
 				062D52CB1FA9CD120006CCE4 /* UIImage+ImageEffects.m in Sources */,
 				06325B3C1FA7271700879229 /* SBJsonStreamParserAdapter.m in Sources */,
 				06325ACC1FA7187800879229 /* main.m in Sources */,
+				060C51311FAC806C00A7748D /* nmPlayMemberListVC.m in Sources */,
+				060C512A1FAC7C2000A7748D /* nmUserVC.m in Sources */,
 				06325B431FA7271700879229 /* SBJsonWriter.m in Sources */,
 				06325B421FA7271700879229 /* SBJsonUTF8Stream.m in Sources */,
 				06325B391FA7271700879229 /* SBJsonParser.m in Sources */,

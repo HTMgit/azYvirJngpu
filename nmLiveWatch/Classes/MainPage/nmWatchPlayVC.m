@@ -193,10 +193,25 @@ static nmWatchPlayVC *shareInstance;
     //注册通知
     [loadingView startAnimating];
     //传入播放地址，准备播放
+    NSLog(@"playerModel.stream : %@",playerModel.stream);
+    if (!playerModel.stream) {
+        NSLog(@"\n**************************************\n**************************************\n");
+        [self loadViewPlayInfo];
+        return;
+    }
     [mediaPlayer prepareToPlay:[NSURL URLWithString:playerModel.stream]];
     //开始播放
    [mediaPlayer play];
     
+}
+
+-(void)loadTIMGroupListWithgroupIdGroupId:(NSString *)groupId{
+     __weak typeof(layoutView) weakLayoutView = layoutView;
+    [[TIMGroupManager sharedInstance] getGroupMembers:groupId succ:^(NSArray *members) {
+        [weakLayoutView showMemberList:members];
+    } fail:^(int code, NSString *msg) {
+       
+    }];
 }
 
 
@@ -319,9 +334,14 @@ static nmWatchPlayVC *shareInstance;
     NSDictionary * dicUserInfo = sender.userInfo;
     if ([dicUserInfo.allKeys containsObject:@"error"]) {
         if ([dicUserInfo[@"error"] intValue] == 4521) {
-            if (!isHadPrepared ) {
-                [self loadVideoInfo];
+            if (isHadPrepared ) {
+                mediaPlayer = nil;
+                mediaPlayer = [[AliVcMediaPlayer alloc] init];
+                //创建播放器，传入显示窗口
+                [mediaPlayer create:self.view];
+                [self addPlayerObserver];
             }
+            [self loadVideoInfo];
         }else{
             NSString * str =[NSString stringWithFormat:@"%@:%@",dicUserInfo[@"errorMsg"],dicUserInfo[@"error"]];
             [[[UIAlertView alloc]initWithTitle:@"错误" message:str delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil, nil] show];
@@ -455,37 +475,6 @@ static nmWatchPlayVC *shareInstance;
     }
 }
 
-//界面按钮代理
--(void)livePlayingLayout:(int)btnNum sender:(id)sender{
-    if (btnNum == 7) {//关闭
-        [self buttonCloseClick:nil];
-    }else if (btnNum == 8) {//刷新
-//        if (!mediaPlayer.isPlaying) {
-//
-//        }
-        
-        if (!mediaPlayer) {
-            [self loadVideoInfo];
-        }else if (!isPlaying) {
-            [self loadVideoInfo];
-        }
-        
-//            [mediaPlayer play];
-//        }
-    }else if (btnNum == 9) {//未登录
-        if ([WXApi isWXAppInstalled]) {
-            [loadingView startAnimating];
-            stateStr =[NSString stringWithFormat:@"%@",[[NSUUID UUID] UUIDString]];
-            SendAuthReq *req = [[SendAuthReq alloc] init];
-            req.scope = @"snsapi_userinfo";
-            req.state = stateStr;
-            [WXApi sendReq:req];
-        }
-        else {
-            [self setupAlertController];
-        }
-    }
-}
 
 -(void) onReq:(BaseReq*)req{
     
@@ -571,6 +560,49 @@ static nmWatchPlayVC *shareInstance;
     }
 }
 
+//界面按钮代理
+-(void)livePlayingLayout:(int)btnNum sender:(id)sender{
+    if (btnNum == 7) {//关闭
+        [self buttonCloseClick:nil];
+    }else if (btnNum == 8) {//刷新
+        //        if (!mediaPlayer.isPlaying) {
+        //
+        //        }
+        
+        if (!mediaPlayer) {
+            [self loadVideoInfo];
+        }else if (!isPlaying) {
+            [self loadVideoInfo];
+        }
+        
+        //            [mediaPlayer play];
+        //        }
+    }else if (btnNum == 9) {//未登录
+        if ([WXApi isWXAppInstalled]) {
+            [loadingView startAnimating];
+            stateStr =[NSString stringWithFormat:@"%@",[[NSUUID UUID] UUIDString]];
+            SendAuthReq *req = [[SendAuthReq alloc] init];
+            req.scope = @"snsapi_userinfo";
+            req.state = stateStr;
+            [WXApi sendReq:req];
+        }
+        else {
+            [self setupAlertController];
+        }
+    }else if (btnNum == 10) {//分享
+        [ZYHCommonService showMakeToastView:@"正在努力开发中..."];
+    }else if (btnNum == 11) {//私聊主播
+        [ZYHCommonService showMakeToastView:@"正在努力开发中..."];
+    }
+}
+
+
+-(void)livePlayingGreateChat:(int)chatNum{
+    //
+    
+    [ZYHCommonService showMakeToastView:@"正在努力开发中..."];
+}
+
 - (void)buttonCloseClick:(id)sender {
     shareInstance = nil;
     [mediaPlayer stop];
@@ -613,7 +645,10 @@ static nmWatchPlayVC *shareInstance;
 //加入聊天室
 -(void)actionBeginConversation{
     //    roomConversation = [[TIMManager sharedInstance] getConversation:TIM_GROUP receiver:_roomInfo.groupId];
+    __weak typeof(self) weakSelf = self;
     [[TIMGroupManager sharedInstance] joinGroup:playerModel.groupId msg:nil succ:^{
+        //获取群成员列表
+        [weakSelf loadTIMGroupListWithgroupIdGroupId:playerModel.groupId];
     } fail:^(int code, NSString *msg) {
         NSLog(@"加入聊天室失败");
         [layoutView changeTxtShow:YES];

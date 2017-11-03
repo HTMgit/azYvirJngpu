@@ -111,6 +111,38 @@
     
 }
 
+
+-(void)showMemberList:(NSArray *)members{
+    float btnWidth = 44.0;
+    if (!scrollList) {
+        scrollList = [[UIScrollView alloc]init];
+        scrollList.frame =CGRectMake(kNMDeviceWidth/2+10+btnWidth+10, (PLAYERVIEWHEADERHEIGHT-btnWidth)/2.0, kNMDeviceWidth-(kNMDeviceWidth/2+10+btnWidth+10)-40, btnWidth);
+         [headerView addSubview:scrollList];
+    }
+    scrollList.pagingEnabled = YES;
+    scrollList.delegate = self;
+    
+    float scrollW =scrollList.frame.size.width;
+    float scrollH =scrollList.frame.size.height;
+    
+    scrollList.contentSize = CGSizeMake(members.count * 30, scrollH);
+    for (int i = 0; i < members.count; i++) {
+        UIButton *btnMember = [[UIButton alloc] initWithFrame:CGRectMake(i * 30, 0, 20, 44)];
+        [btnMember setImage:[UIImage imageNamed:@"pl_member"] forState:UIControlStateNormal];
+        btnMember.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        btnMember.tag = 1000000+i;
+        [btnMember addTarget:self
+                      action:@selector(actionCreatedPrivateChat:) forControlEvents:UIControlEventTouchUpInside];
+//        btnMember.contentMode = UIViewContentModeScaleAspectFit;
+//        TIMGroupMemberInfo * member =members[i];
+//        imgView.image = imgArr[i];
+//        imgView.contentMode = UIViewContentModeScaleToFill;
+        [scrollList addSubview:btnMember];
+    }
+    
+    
+}
+
 -(void)setLayoutView{
    
     
@@ -129,6 +161,9 @@
     btnFllow.layer.masksToBounds = YES;
     viewBlak.backgroundColor = [UIColor blackColor];
     viewBlak.alpha = 0.3;
+    
+    scrollList.showsVerticalScrollIndicator=NO;
+    scrollList.showsHorizontalScrollIndicator = NO;
     
     
     [userImg sd_setImageWithURL:[NSURL URLWithString:self.playerModel.faceUrl] placeholderImage:[UIImage imageNamed:@"userDef"]];
@@ -178,7 +213,9 @@
     
     imgTalk.image =[UIImage imageNamed:@"pl_talk"];
     [btnShare setImage:[UIImage imageNamed:@"pl_share"] forState:UIControlStateNormal];
+    [btnShare addTarget:self action:@selector(actionTurnShare:) forControlEvents:UIControlEventTouchUpInside];
     [btnPrivateChat setImage:[UIImage imageNamed:@"pl_pPrivate"] forState:UIControlStateNormal];
+    [btnPrivateChat addTarget:self action:@selector(actionChatWithPlayer:) forControlEvents:UIControlEventTouchUpInside];
     
     [btnTalk setTitle:@"这里可以互动哦..." forState:UIControlStateNormal];
     btnTalk.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -193,7 +230,7 @@
     //    txtTalk.layer.cornerRadius = 5;
     //    txtTalk.layer.masksToBounds = YES;
     //    txtTalk.frame = CGRectMake(15, 0, kNMDeviceWidth-50,30 );
-    txtTalk.backgroundColor = [UIColor orangeColor];
+    //txtTalk.backgroundColor = [UIColor orangeColor];
     btnSend.titleLabel.font =[UIFont systemFontOfSize:13];
     
     [btnSend setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -221,7 +258,7 @@
     
     btnList.frame =CGRectMake(kNMDeviceWidth/2+15, (PLAYERVIEWHEADERHEIGHT-btnWidth)/2.0, btnWidth, btnWidth);
     scrollList.frame =CGRectMake(kNMDeviceWidth/2+10+btnWidth+10, (PLAYERVIEWHEADERHEIGHT-btnWidth)/2.0, kNMDeviceWidth-(kNMDeviceWidth/2+10+btnWidth+10)-40, btnWidth);
-    scrollList.backgroundColor = [UIColor orangeColor];
+    //scrollList.backgroundColor = [UIColor orangeColor];
     
     imgTalk.frame = CGRectMake(15, kNMDeviceHeight-15-20, 20, 20);
     btnTalk.frame = CGRectMake(15+20+10, kNMDeviceHeight-15-18, kNMDeviceWidth-133-15-30-10, 20);
@@ -584,12 +621,21 @@
     
 }
 
+
+-(void)actionConncetReplace:(UIButton *)sender{
+    [self livePlayingControl:6 sender:sender];
+}
+
 -(void)actionCloseLivePlaying:(UIButton *)sender{
     [self livePlayingControl:7 sender:sender];
 }
 
--(void)actionConncetReplace:(UIButton *)sender{
-    [self livePlayingControl:6 sender:sender];
+-(void)actionTurnShare:(UIButton *)sender{
+    [self livePlayingControl:10 sender:sender];
+}
+
+-(void)actionChatWithPlayer:(UIButton *)sender{
+    [self livePlayingControl:11 sender:sender];
 }
 
 -(void)actionShowMoreControlView{
@@ -599,6 +645,12 @@
     if ([self.delegate respondsToSelector:@selector(livePlayingSendMsg:sender:)]) {
         [self.delegate livePlayingSendMsg:sender sender:nil];
         sendMsgStr = @"";
+    }
+}
+
+-(void)actionCreatedPrivateChat:(UIButton *)sender{
+    if ([self.delegate respondsToSelector:@selector(livePlayingGreateChat:)]) {
+        [self.delegate livePlayingGreateChat:sender.tag];
     }
 }
 

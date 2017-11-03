@@ -1,22 +1,22 @@
 //
-//  nmUserVC.m
+//  nmPlayMemberListVC.m
 //  nmLiveWatch
 //
 //  Created by zyh on 2017/11/3.
 //  Copyright © 2017年 zyh. All rights reserved.
 //
 
-#import "nmUserVC.h"
+#import "nmPlayMemberListVC.h"
 
-@interface nmUserVC ()
+@interface nmPlayMemberListVC ()
 
 @end
 
-@implementation nmUserVC
+@implementation nmPlayMemberListVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
