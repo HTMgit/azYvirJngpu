@@ -7,6 +7,7 @@
 //
 
 #import "LPLivePlayingLayoutView.h"
+#import "UUKeyboardInputView.h"
 
 #import <ImSDK/ImSDK.h>
 
@@ -32,7 +33,7 @@
     [self setLayoutView];
     [self setViewFrame];
     
-    [self addSureBtnOnKeyboardBar];
+//    [self addSureBtnOnKeyboardBar];
     [self registerForKeyboardNotifications];
     
     return self;
@@ -40,6 +41,22 @@
 
 -(void)loadViewInit{
     _arrText=[NSMutableArray arrayWithCapacity:0];
+    
+    viewBlak = [[UIView alloc]init];
+    btnFllow = [[UIButton alloc]init];
+    imgPeople = [[UIImageView alloc]init];
+    labNum = [[UILabel alloc]init];
+    labRoomName = [[UILabel alloc]init];
+    btnList = [[UIButton alloc]init];
+    scrollList = [[UIScrollView alloc]init];
+    labRoomNumber = [[UILabel alloc]init];
+    imgTalk= [[UIImageView alloc]init];
+    btnTalk = [[UIButton alloc]init];
+    btnPrivateChat = [[UIButton alloc]init];
+    btnShare = [[UIButton alloc]init];
+    viewBlak = [[UIView alloc]init];
+    viewLine = [[UIView alloc]init];
+    
     talkTableView = [[UITableView alloc]init];
     headerView = [[UIView alloc]init];
     userImg = [[UIImageView alloc]init];
@@ -52,24 +69,45 @@
     _imgConnect = [[UIImageView alloc]init];
     _btnConnect = [[UIButton alloc]init];
     
-    
-    txtTalk =[[UITextField alloc]init];
+    viewTalkBlak = [[UIView alloc]init];
     btnSend = [[UIButton alloc]init];
+    txtTalk =[[UITextField alloc]init];
+    
     btnMore = [[UIButton alloc]init];
     
     [self addSubview:headerView ];
-    [headerView addSubview:userImg ];
+    
+    [headerView addSubview:viewBlak];
+    [headerView addSubview:labRoomName];
+    [headerView addSubview:imgPeople];
+    [headerView addSubview:labNum];
+    [headerView addSubview:btnFllow];
+    [headerView addSubview:btnList];
+    [headerView addSubview:scrollList];
+    
+    [viewBlak addSubview:userImg ];
     [headerView addSubview:labWatchNum ];
     [headerView addSubview:labFansNum ];
     [headerView addSubview:btnClose ];
     [headerView addSubview:imgClose ];
     [self addSubview:talkTableView ];
-    [self addSubview:_labTimer ];
-    [self addSubview:_imgConnect ];
-    [self addSubview:_btnConnect ];
-    [self addSubview:btnSend ];
-    [self addSubview:txtTalk ];
-    [self addSubview:btnMore ];
+    
+//    [self addSubview:viewTalkBlak ];
+//    [viewTalkBlak addSubview:btnSend ];
+//    [viewTalkBlak addSubview:txtTalk ];
+    
+    [self addSubview:imgTalk];
+    [self addSubview:btnTalk];
+    [self addSubview:btnShare];
+    [self addSubview:btnPrivateChat];
+    [self addSubview:viewLine];
+    
+//    [self addSubview:_labTimer ];
+//    [self addSubview:_imgConnect ];
+//    [self addSubview:_btnConnect ];
+//    [self addSubview:btnSend ];
+//    [self addSubview:txtTalk ];
+//    [self addSubview:btnMore ];
     
 }
 
@@ -79,13 +117,23 @@
     talkTableView.backgroundColor = [UIColor clearColor];
     talkTableView.delegate = self;
     talkTableView.dataSource = self;
+    talkTableView.showsVerticalScrollIndicator = NO;
+    talkTableView.showsHorizontalScrollIndicator = NO;
     talkTableView.tableFooterView = [[UIView alloc]init];
     talkTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
    
-
+    
+    btnFllow.layer.cornerRadius = 12;
+    [btnFllow setBackgroundImage:[UIImage imageNamed:@"pl_follow"] forState:UIControlStateNormal];
+    btnFllow.titleLabel.font = [UIFont systemFontOfSize:13];
+    btnFllow.layer.masksToBounds = YES;
+    viewBlak.backgroundColor = [UIColor blackColor];
+    viewBlak.alpha = 0.3;
+    
     
     [userImg sd_setImageWithURL:[NSURL URLWithString:self.playerModel.faceUrl] placeholderImage:[UIImage imageNamed:@"userDef"]];
-    userImg.layer.cornerRadius = 15;
+    
+    userImg.layer.cornerRadius = 18;
     userImg.layer.masksToBounds = YES;
     labWatchNum.font = [UIFont systemFontOfSize:10];
     labFansNum.font = [UIFont systemFontOfSize:10];
@@ -99,6 +147,16 @@
         labWatchNum.text =@"0在线";
     }
     
+    
+    btnFllow.backgroundColor = SYSTEMCOlOR;
+    [btnFllow setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [btnFllow setTitle:@"关注" forState:UIControlStateNormal];
+    [btnFllow setTitle:@"已关注" forState:UIControlStateSelected];
+    btnFllow.selected = YES;
+    [btnFllow addTarget:self action:@selector(actionFollowPlayer:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [btnList setImage:[UIImage imageNamed:@"pl_pList"] forState:UIControlStateNormal];
+    
     _labTimer.font = [UIFont systemFontOfSize:10];
     
     btnMore.backgroundColor = [UIColor whiteColor];
@@ -110,28 +168,73 @@
     _imgConnect.image =[UIImage imageNamed:@"m_connect"];
     [_btnConnect addTarget:self action:@selector(actionConncetReplace:) forControlEvents:UIControlEventTouchUpInside];
     
-    [btnMore setImage:[UIImage imageNamed:@"talk"] forState:UIControlStateNormal];
-    [btnMore addTarget:self action:@selector(actionShowKey) forControlEvents:UIControlEventTouchUpInside];
+//    [btnMore setImage:[UIImage imageNamed:@"talk"] forState:UIControlStateNormal];
+//    [btnMore addTarget:self action:@selector(actionShowKey) forControlEvents:UIControlEventTouchUpInside];
+    viewLine.backgroundColor =[UIColor whiteColor];
+    viewLine.alpha = 0.7;
     
     
-    txtTalk.delegate =self;
-    txtTalk.hidden = YES;
     btnSend.hidden = YES;
-    txtTalk.backgroundColor =[UIColor whiteColor];
-    txtTalk.layer.cornerRadius = 5;
-    txtTalk.layer.masksToBounds = YES;
     
+    imgTalk.image =[UIImage imageNamed:@"pl_talk"];
+    [btnShare setImage:[UIImage imageNamed:@"pl_share"] forState:UIControlStateNormal];
+    [btnPrivateChat setImage:[UIImage imageNamed:@"pl_pPrivate"] forState:UIControlStateNormal];
+    
+    [btnTalk setTitle:@"这里可以互动哦..." forState:UIControlStateNormal];
+    btnTalk.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [btnTalk setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btnTalk.alpha = 0.7;
+    btnTalk.titleLabel.font =[UIFont systemFontOfSize:12];
+    [btnTalk addTarget:self action:@selector(actionShowKey) forControlEvents:UIControlEventTouchUpInside];
+    
+    viewTalkBlak.backgroundColor =[UIColor whiteColor];
+    txtTalk.borderStyle = UITextBorderStyleNone;
+    txtTalk.delegate =self;
+    //    txtTalk.layer.cornerRadius = 5;
+    //    txtTalk.layer.masksToBounds = YES;
+    //    txtTalk.frame = CGRectMake(15, 0, kNMDeviceWidth-50,30 );
+    txtTalk.backgroundColor = [UIColor orangeColor];
+    btnSend.titleLabel.font =[UIFont systemFontOfSize:13];
+    
+    [btnSend setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btnSend setTitle:@"发送" forState:UIControlStateNormal];
     [btnSend addTarget:self action:@selector(actionSendMsg:) forControlEvents:UIControlEventTouchUpInside];
-    
+    viewTalkBlak.hidden = YES;
 }
 
 -(void)setViewFrame{
-    headerView.frame = CGRectMake(0, 20, kNMDeviceWidth, 44);
-    userImg.frame = CGRectMake(15, (44-30)/2.0, 30, 30);
+    
+    float btnWidth =kNMDeviceWidth * 0.1173;
+    if (btnWidth>44) {
+        btnWidth =44;
+    }
+    
+    headerView.frame = CGRectMake(0, 20, kNMDeviceWidth, PLAYERVIEWHEADERHEIGHT);
+    viewBlak.frame = CGRectMake(10, 0, kNMDeviceWidth/2, PLAYERVIEWHEADERHEIGHT);
+    viewBlak.layer.cornerRadius = PLAYERVIEWHEADERHEIGHT/2;
+    viewBlak.layer.masksToBounds = YES;
+    
+    userImg.frame = CGRectMake(5, (PLAYERVIEWHEADERHEIGHT-36)/2.0, 36, 36);
+    labRoomName.frame = CGRectMake(55, 10, (kNMDeviceWidth/2-55-10-40), 15);
+    imgPeople.frame = CGRectMake(55, PLAYERVIEWHEADERHEIGHT-10-15, 15, 15);
+    btnFllow.frame = CGRectMake(kNMDeviceWidth/2+10-45-5, (PLAYERVIEWHEADERHEIGHT-24)/2.0, 45, 24);
+    
+    btnList.frame =CGRectMake(kNMDeviceWidth/2+15, (PLAYERVIEWHEADERHEIGHT-btnWidth)/2.0, btnWidth, btnWidth);
+    scrollList.frame =CGRectMake(kNMDeviceWidth/2+10+btnWidth+10, (PLAYERVIEWHEADERHEIGHT-btnWidth)/2.0, kNMDeviceWidth-(kNMDeviceWidth/2+10+btnWidth+10)-40, btnWidth);
+    scrollList.backgroundColor = [UIColor orangeColor];
+    
+    imgTalk.frame = CGRectMake(15, kNMDeviceHeight-15-20, 20, 20);
+    btnTalk.frame = CGRectMake(15+20+10, kNMDeviceHeight-15-18, kNMDeviceWidth-133-15-30-10, 20);
+//    btnTalk.backgroundColor =[UIColor orangeColor];
+    viewLine.frame = CGRectMake(15, kNMDeviceHeight-15,kNMDeviceWidth-133, 0.5);
+    
+    btnShare.frame = CGRectMake(kNMDeviceWidth-2*btnWidth-10-15, kNMDeviceHeight-(btnWidth * 0.9)-15, btnWidth*0.9, btnWidth*0.9);
+    btnPrivateChat.frame = CGRectMake(kNMDeviceWidth-btnWidth-15, kNMDeviceHeight-(btnWidth * 0.9)-15, btnWidth*0.9, btnWidth*0.9);
+    
+    
     labWatchNum.frame = CGRectMake(15+30+3, (44-25)/2.0+3, 50, 11);
     labFansNum.frame = CGRectMake(15+30+3, (44-25)/2.0-3+15, 30, 11);
-    btnClose.frame = CGRectMake(kNMDeviceWidth-40-15, (44-40)/2.0, 40, 40);
+    btnClose.frame = CGRectMake(kNMDeviceWidth-40, (44-40)/2.0, 40, 40);
     imgClose.center = btnClose.center;
     imgClose.bounds = CGRectMake(0, 0, 18, 18);
     
@@ -142,36 +245,40 @@
     _imgConnect.center = _btnConnect.center;
     _imgConnect.bounds = CGRectMake(0, 0, 18, 18);
     
+    
+    viewTalkBlak.frame = CGRectMake(0, kNMDeviceHeight-44, kNMDeviceWidth,44 );
+    txtTalk.frame = CGRectMake(15, (44-30)/2, kNMDeviceWidth-50,30);
+    btnSend.frame = CGRectMake(kNMDeviceWidth-50, (kNMDeviceHeight-44)/2, 50, 44);
+    
+    
     talkTableView.frame = CGRectMake(15, 84, cellConWidth,0 );//kNMDeviceHeight-84-88
-    txtTalk.frame = CGRectMake(15, kNMDeviceHeight-30-10, kNMDeviceWidth-30-10-50,30 );
-    btnSend.frame = CGRectMake(kNMDeviceWidth-50-15, kNMDeviceHeight-30-10, 50, 30);
     btnMore.frame = CGRectMake(15, kNMDeviceHeight-30-10, 30, 30);
     
 }
 
 -(void)setAllViewFrame{
-    headerView.frame = CGRectMake(0, 0, kNMDeviceHeight, 44);
-    
-    userImg.frame = CGRectMake(15, (44-30)/2.0, 30, 30);
-    labWatchNum.frame = CGRectMake(15+30+3, (44-25)/2.0+3, 50, 11);
-    labFansNum.frame = CGRectMake(15+30+3, (44-25)/2.0-3+15, 30, 11);
-    btnClose.frame = CGRectMake(kNMDeviceHeight-40-15, (44-40)/2.0, 40, 40);
-    imgClose.center = btnClose.center;
-    imgClose.bounds = CGRectMake(0, 0, 18, 18);
-    
-    _labTimer.frame = CGRectMake(15, 44, 50, 20);
-    
-    _btnConnect.center = CGPointMake(_labTimer.center.x+38, _labTimer.center.y);
-    _btnConnect.bounds = CGRectMake(0,0, 44, 44);
-    _imgConnect.center = _btnConnect.center;
-    _imgConnect.bounds = CGRectMake(0, 0, 18, 18);
-    
-    talkTableView.frame = CGRectMake(15, 64, cellConWidth, 0);//kNMDeviceWidth-84-88
-    
-    txtTalk.frame = CGRectMake(15, kNMDeviceWidth-30-10, kNMDeviceWidth-30-10-50,30 );
-    btnSend.frame = CGRectMake(kNMDeviceHeight-50-15, kNMDeviceWidth-30-10, 50, 30);
-    
-    btnMore.frame = CGRectMake(15, kNMDeviceWidth-30-10, 30, 30);
+//    headerView.frame = CGRectMake(0, 0, kNMDeviceHeight, 44);
+//
+//    userImg.frame = CGRectMake(15, (44-30)/2.0, 30, 30);
+//    labWatchNum.frame = CGRectMake(15+30+3, (44-25)/2.0+3, 50, 11);
+//    labFansNum.frame = CGRectMake(15+30+3, (44-25)/2.0-3+15, 30, 11);
+//    btnClose.frame = CGRectMake(kNMDeviceHeight-40-15, (44-40)/2.0, 40, 40);
+//    imgClose.center = btnClose.center;
+//    imgClose.bounds = CGRectMake(0, 0, 18, 18);
+//
+//    _labTimer.frame = CGRectMake(15, 44, 50, 20);
+//
+//    _btnConnect.center = CGPointMake(_labTimer.center.x+38, _labTimer.center.y);
+//    _btnConnect.bounds = CGRectMake(0,0, 44, 44);
+//    _imgConnect.center = _btnConnect.center;
+//    _imgConnect.bounds = CGRectMake(0, 0, 18, 18);
+//
+//    talkTableView.frame = CGRectMake(15, 64, cellConWidth, 0);//kNMDeviceWidth-84-88
+//
+//    txtTalk.frame = CGRectMake(15, kNMDeviceWidth-30-10, kNMDeviceWidth-30-10-50,30 );
+//    btnSend.frame = CGRectMake(kNMDeviceHeight-50-15, kNMDeviceWidth-30-10, 50, 30);
+//
+//    btnMore.frame = CGRectMake(15, kNMDeviceWidth-30-10, 30, 30);
   ///  controlView.frame = CGRectMake(0, 0, kNMDeviceHeight, kNMDeviceWidth);
 }
 
@@ -345,16 +452,17 @@
     UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 35)];
     
     //设置style
-    [topView setBarStyle:UIBarStyleBlack];
+    [topView setBarStyle:UIBarStyleDefault];
     
     //定义两个flexibleSpace的button，放在toolBar上，这样完成按钮就会在最右边
     UIBarButtonItem * button1 =[[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    
+
     UIBarButtonItem * button2 = [[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
+   
     //定义完成按钮
-    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStyleDone  target:self action:@selector(changeTxtResponder)];
-    [doneButton setTintColor:fRgbColor(60, 180, 240)];
+    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc]initWithTitle:@"发送" style:UIBarButtonItemStyleDone  target:self action:@selector(changeTxtResponder)];
+    [doneButton setTintColor:[UIColor whiteColor]];
     
     //在toolBar上加上这些按钮
     NSArray * buttonsArray = [NSArray arrayWithObjects:button1,button2,doneButton,nil];
@@ -365,13 +473,72 @@
 - (void) registerForKeyboardNotifications{
     keyWordHight=0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShown:) name:UIKeyboardDidShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShown:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 
-- (void) keyboardWasShown:(NSNotification *) notif{
+- (void) keyboardWasShown:(NSNotification *) notification{
 
+    /*
+     Reduce the size of the text view so that it's not obscured by the keyboard.
+     Animate the resize so that it's in sync with the appearance of the keyboard.
+     */
+    isKeyShow = YES;
+    NSDictionary *userInfo = [notification userInfo];
+    // Get the origin of the keyboard when it's displayed.
+    NSValue *boundsValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [boundsValue CGRectValue];
+    // This UIKeyboardBoundsUserInfoKey returns CGRect won't be auto adapt to the interface orientation changes
+    // We should exchange the width and height manually
+    if (keyboardRect.size.width < keyboardRect.size.height)
+    {
+        float tempHeight = keyboardRect.size.height;
+        keyboardRect.size.height = keyboardRect.size.width;
+        keyboardRect.size.width = tempHeight;
+    }
+    
+    keyWordHight =MAX(keyWordHight,keyboardRect.size.height);
+    //keyWordHight>keyboardRect.size.height?keyWordHight:keyboardRect.size.height;
+    
+    NSLog(@"keyWordHight  == %f",keyWordHight);
+    
+    // Get the top of the keyboard as the y coordinate of its origin in self's view's coordinate system.
+    //The bottom of the text view's frame should align with the top of the keyboard's final position.
+//    CGFloat keyboardTop = self.frame.size.height - keyboardRect.size.height;
+        [UIView animateWithDuration:0.1
+                         animations:^{
+                             self.frame=CGRectMake(self.frame.origin.x, 0-keyWordHight, self.frame.size.width, self.frame.size.height);
+                         }
+                         completion:nil];
+    
+    
+    
+//    CGRect bottomViewFrame = viewTalkBlak.frame;
+//
+//    bottomViewFrame.origin.y = keyboardTop - bottomViewFrame.size.height;
+//    // Get the duration of the animation.
+//    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+//    NSTimeInterval animationDuration;
+//    [animationDurationValue getValue:&animationDuration];
+//    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:animationDuration];
+//    viewTalkBlak.frame = bottomViewFrame;
+//    [UIView commitAnimations];
+//    isMove = YES;
+//    isKeyShow = YES;
+//    CGRect tableViewFrame = viewTalkBlak.frame;
+//    tableViewFrame.size.height = bottomViewFrame.origin.y - self.frame.origin.y;
+//    viewTalkBlak.frame = tableViewFrame;
+    
+    
+}
+
+- (void) keyboardDidShown:(NSNotification *) notif{
+//    if (isKeyShow) {
+//        return;
+//    }
 //    NSDictionary *userInfo = [notif userInfo];
 //    //创建value来获取 userinfo里的键盘frame大小
 //    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
@@ -382,7 +549,7 @@
 //
 //    isKeyShow=YES;
 //    isMove = YES;
-//    NSLog(@"keyBoard:%f", keyWordHight);  //250
+//    NSLog(@"keyBoard did show:%f", keyWordHight);  //250
 //    [UIView animateWithDuration:0.1
 //                     animations:^{
 //                         self.frame=CGRectMake(self.frame.origin.x, 0-keyWordHight, self.frame.size.width, self.frame.size.height);
@@ -390,33 +557,13 @@
 //                     completion:nil];
 }
 
-- (void) keyboardDidShown:(NSNotification *) notif{
-    if (isKeyShow) {
-        return;
-    }
-    NSDictionary *userInfo = [notif userInfo];
-    //创建value来获取 userinfo里的键盘frame大小
-    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    //创建cgrect 来获取键盘的值
-    CGRect keyboardRect = [aValue CGRectValue];
-    //最后获取高度 宽度也是同理可以获取
-    keyWordHight = keyboardRect.size.height+35;
-    
-    isKeyShow=YES;
-    isMove = YES;
-    NSLog(@"keyBoard did show:%f", keyWordHight);  //250
-    [UIView animateWithDuration:0.1
-                     animations:^{
-                         self.frame=CGRectMake(self.frame.origin.x, 0-keyWordHight, self.frame.size.width, self.frame.size.height);
-                     }
-                     completion:nil];
-}
-
 - (void) keyboardWasHidden:(NSNotification *) notif{
     isKeyShow=NO;
-    if (!isMove) {
-        return;
-    }
+//    if (!isMove) {
+//        return;
+//    }
+    
+    [self changeTxtResponder];
     [UIView animateWithDuration:0.1
                      animations:^{
                          self.frame=CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
@@ -433,6 +580,10 @@
     }
 }
 
+-(void)actionFollowPlayer:(UIButton *)sender{
+    
+}
+
 -(void)actionCloseLivePlaying:(UIButton *)sender{
     [self livePlayingControl:7 sender:sender];
 }
@@ -444,9 +595,10 @@
 -(void)actionShowMoreControlView{
 }
 
--(void)actionSendMsg:(UIButton *)sender{
+-(void)actionSendMsg:(NSString *)sender{
     if ([self.delegate respondsToSelector:@selector(livePlayingSendMsg:sender:)]) {
-        [self.delegate livePlayingSendMsg:txtTalk.text sender:sender];
+        [self.delegate livePlayingSendMsg:sender sender:nil];
+        sendMsgStr = @"";
     }
 }
 
@@ -461,7 +613,6 @@
     NSUserDefaults * userDef = [NSUserDefaults standardUserDefaults];
 //    [userDef setObject:dicResult forKey:@"getWeChatPremiss"];
     NSDictionary * dicHaveLoad =[userDef objectForKey:@"getWeChatPremiss"];
-    
     
     
     if (dicHaveLoad) {
@@ -483,9 +634,32 @@
 
 -(void)changeTxtShow:(BOOL)isShow{
     if (isShow) {
-        [txtTalk becomeFirstResponder];
+        __weak typeof(self) weakSelf = self;
+        [UUKeyboardInputView showKeyboardConfige:^(UUInputConfiger * _Nonnull configer) {
+            // 配置信息（后续可继续添加）
+          //  configer.keyboardType = UIKeyboardTypeDefault;
+            configer.content = sendMsgStr;
+            configer.isOverClean = YES;
+//            configer.backgroundColor = color;
+        } block:^(NSString * _Nonnull contentStr) {
+            // 回调事件处理
+            [self changeTxtShow:NO];
+            if (contentStr.length == 0){
+            }else{
+                sendMsgStr =contentStr;
+                [weakSelf actionSendMsg:contentStr];
+            }
+            return ;
+        }];
     }
     btnMore.hidden = isShow;
+    viewLine.hidden = isShow;
+    btnTalk.hidden = isShow;
+    imgTalk.hidden = isShow;
+    btnPrivateChat.hidden = isShow;
+    btnShare.hidden = isShow;
+    
+    viewTalkBlak.hidden = !isShow;
     btnSend.hidden = !isShow;
     txtTalk.hidden = !isShow;
 }
@@ -525,22 +699,20 @@
 
 -(void)actionChangeVolume:(UIPanGestureRecognizer *)sender{
     if (sender.state == UIGestureRecognizerStateBegan) {
-        panPoint = [sender translationInView:self];
+        panPoint = [sender locationInView:self];
         
     }else if (sender.state == UIGestureRecognizerStateChanged) {
-        CGPoint newPoint = [sender translationInView:self];
+        CGPoint newPoint = [sender locationInView:self];
         float w =fabsf(newPoint.x -panPoint.x);
         float h = fabsf(newPoint.y - panPoint.y);
         
             if ([self.delegate respondsToSelector:@selector(livePlayingChangeViewShow:type:)]) {
                 if (newPoint.x<(kNMDeviceWidth/2)&&h>w) {
-                    [self.delegate livePlayingChangeViewShow:(newPoint.y - panPoint.y) type:1];
+                    [self.delegate livePlayingChangeViewShow:(panPoint.y-newPoint.y ) type:1];
                 }else if (newPoint.x>(kNMDeviceWidth/2)&&h>w) {
-                    [self.delegate livePlayingChangeViewShow:(newPoint.y - panPoint.y) type:2];
+                    [self.delegate livePlayingChangeViewShow:(panPoint.y - newPoint.y) type:2];
                     
                 }
-                
-               
             }
         
     }else if (sender.state == UIGestureRecognizerStateEnded) {

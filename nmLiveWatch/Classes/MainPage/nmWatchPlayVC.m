@@ -25,6 +25,7 @@ static nmWatchPlayVC *shareInstance;
     TIMManager *roomIMManager;
     UIActivityIndicatorView * loadingView;
     BOOL isPlaying;
+    BOOL isHadPrepared;//视频是否初始化
     NSTimer * timerOut;
     NSString * stateStr;
 }
@@ -176,20 +177,21 @@ static nmWatchPlayVC *shareInstance;
     
     if(!mediaPlayer){
         mediaPlayer = [[AliVcMediaPlayer alloc] init];
+        //创建播放器，传入显示窗口
+        [mediaPlayer create:self.view];
+        [self addPlayerObserver];
     }
     //播放器倍数播放，支持0.5～2倍数播放，创建播放器后设置参数，在播放过程中可更新倍数播放数值；默认倍数播放值是1(正常播放速度)。
     mediaPlayer.playSpeed = 1;
     mediaPlayer.mediaType =MediaType_LIVE;
     mediaPlayer.timeout = 25000;//毫秒
     mediaPlayer.dropBufferDuration = 8000;
-    //创建播放器，传入显示窗口
-    [mediaPlayer create:self.view];
+   
     timerOut = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(actionGetVideoTimeOut) userInfo:nil repeats:NO];
     self.view.userInteractionEnabled = YES;
     layoutView.userInteractionEnabled = YES;
     //注册通知
     [loadingView startAnimating];
-    [self addPlayerObserver];
     //传入播放地址，准备播放
     [mediaPlayer prepareToPlay:[NSURL URLWithString:playerModel.stream]];
     //开始播放
@@ -296,6 +298,7 @@ static nmWatchPlayVC *shareInstance;
 -(void)OnVideoPrepared:(NSNotification *)sender{
     //播放器初始化视频文件完成通知
     [layoutView reloadConversationTabelView:@[@{@"msg":@"播放器初始化"}]];
+    isHadPrepared = YES;
     mediaPlayer.view.userInteractionEnabled = NO;
     [self.view bringSubviewToFront:layoutView];
     self.view.userInteractionEnabled = YES;
@@ -304,6 +307,7 @@ static nmWatchPlayVC *shareInstance;
 -(void)OnVideoFinish:(NSNotification *)sender{
     [loadingView stopAnimating];
     isPlaying = NO;
+    isHadPrepared = NO;
     [timerOut invalidate];
     [layoutView reloadConversationTabelView:@[@{@"msg":@"主播正在赶来的路上..."}]];
    // 播放完成通知。当视频播放完成后会收到此通知
@@ -312,6 +316,21 @@ static nmWatchPlayVC *shareInstance;
     //播放器播放失败发送该通知，并在该通知中可以获取到错误码。
     isPlaying = NO;
     [loadingView stopAnimating];
+    NSDictionary * dicUserInfo = sender.userInfo;
+    if ([dicUserInfo.allKeys containsObject:@"error"]) {
+        if ([dicUserInfo[@"error"] intValue] == 4521) {
+            if (!isHadPrepared ) {
+                [self loadVideoInfo];
+            }
+        }else{
+            NSString * str =[NSString stringWithFormat:@"%@:%@",dicUserInfo[@"errorMsg"],dicUserInfo[@"error"]];
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:str delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil, nil] show];
+        }
+    }
+    
+    
+    //[1]    (null)    @"errorMsg" : @"Illegal status, the current status is uninitialized"
+    
   //  [layoutView reloadConversationTabelView:@[@{@"msg":@"播放器初始化失败"}]];
 }
 -(void)OnSeekDone:(NSNotification *)sender{
@@ -335,9 +354,11 @@ static nmWatchPlayVC *shareInstance;
 }
 -(void)onVideoFirstFrame:(NSNotification *)sender{
     isPlaying = YES;
+    isHadPrepared = YES;
     [loadingView stopAnimating];
     //播放器状态首帧显示后发送的通知
 }
+
 -(void)networkStateChange{
     
 }
@@ -414,7 +435,7 @@ static nmWatchPlayVC *shareInstance;
 #pragma mark -action事件
 
 -(void)livePlayingChangeViewShow:(float)valeNum type:(int)type{
-    float num = valeNum/kNMDeviceHeight;
+    float num = valeNum/kNMDeviceHeight/2;
     if (type ==2 ) {
         mediaPlayer.brightness += num;
     }else if (type ==1 ){
@@ -533,7 +554,7 @@ static nmWatchPlayVC *shareInstance;
         [msg addElem:text_elem];
         [roomConversation sendMessage:msg succ:^(){
             NSLog(@"SendMsg Succ");
-            [ZYHCommonService showMakeToastView:@"消息发送成功:"];
+//            [ZYHCommonService showMakeToastView:@"消息发送成功:"];
             TIMUserProfile *sendUser =[[TIMUserProfile alloc] init];
             sendUser.nickname = dicHaveLoad[@"nickname"];
             sendUser.identifier = dicHaveLoad[@"nickname"];

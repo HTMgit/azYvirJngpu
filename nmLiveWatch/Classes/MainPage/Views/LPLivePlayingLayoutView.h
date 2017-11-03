@@ -22,6 +22,26 @@
 @end
 
 @interface LPLivePlayingLayoutView : UIView<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>{
+    UIView * viewBlak;
+    UIButton * btnFllow;
+    UIImageView * imgPeople;
+    UILabel * labNum;
+    UILabel * labRoomName;
+    UIButton * btnList;
+    UIScrollView * scrollList;
+    UILabel * labRoomNumber;
+    UIImageView * imgTalk;
+    UIButton * btnTalk;
+    UIButton * btnPrivateChat;
+    UIButton * btnShare;
+    UIView * viewLine;
+    
+    UIView * viewTalkBlak;
+    UITextField * txtTalk;
+    UIButton * btnSend;
+    
+    NSString * sendMsgStr;
+    
     UITableView * talkTableView;
     UIView * headerView;
     UIImageView * userImg;
@@ -31,8 +51,6 @@
     UIImageView * imgClose;
     
 //    UILabel * labTimer;
-    UITextField * txtTalk;
-    UIButton * btnSend;
     
     UIButton * btnMore;
     BOOL isScreenRotate;
@@ -46,7 +64,7 @@
     
 }
 
-@property(nonatomic,strong) UILabel * labTimer;
+@property(nonatomic,strong)UILabel * labTimer;
 @property(nonatomic,strong)UIButton * btnConnect;
 @property(nonatomic,strong)UIImageView * imgConnect;
 @property(nonatomic,strong)nmPlayListRoomModel * playerModel;

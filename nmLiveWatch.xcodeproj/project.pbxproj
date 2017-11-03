@@ -73,6 +73,7 @@
 		063F5FE41FA8691F00D77C20 /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 063F5FE31FA8691F00D77C20 /* libstdc++.6.tbd */; };
 		063F5FE71FA876F200D77C20 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 063F5FE51FA876F200D77C20 /* Reachability.m */; };
 		063F5FE91FA8798A00D77C20 /* LPConMsgCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 063F5FE81FA8798A00D77C20 /* LPConMsgCell.xib */; };
+		0668D59A1FAC55AE007EBB07 /* UUKeyboardInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0668D5991FAC55AD007EBB07 /* UUKeyboardInputView.m */; };
 		6A82BCE7DFC5CB14F9605D05 /* libPods-nmLiveWatch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED8808A6A78EA8A919DC87AC /* libPods-nmLiveWatch.a */; };
 /* End PBXBuildFile section */
 
@@ -219,6 +220,8 @@
 		063F5FE51FA876F200D77C20 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		063F5FE61FA876F200D77C20 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		063F5FE81FA8798A00D77C20 /* LPConMsgCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPConMsgCell.xib; sourceTree = "<group>"; };
+		0668D5981FAC55AD007EBB07 /* UUKeyboardInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUKeyboardInputView.h; sourceTree = "<group>"; };
+		0668D5991FAC55AD007EBB07 /* UUKeyboardInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UUKeyboardInputView.m; sourceTree = "<group>"; };
 		0D0036254A3FA03C75D435F3 /* Pods-nmLiveWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nmLiveWatch.release.xcconfig"; path = "Pods/Target Support Files/Pods-nmLiveWatch/Pods-nmLiveWatch.release.xcconfig"; sourceTree = "<group>"; };
 		DB780EA01BA03768F64FC617 /* Pods-nmLiveWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nmLiveWatch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nmLiveWatch/Pods-nmLiveWatch.debug.xcconfig"; sourceTree = "<group>"; };
 		ED8808A6A78EA8A919DC87AC /* libPods-nmLiveWatch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nmLiveWatch.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -495,6 +498,7 @@
 		06325B4D1FA7323D00879229 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0668D5971FAC55AD007EBB07 /* UUKeyboardInputView */,
 				06325B4E1FA7323D00879229 /* devBtn.h */,
 				06325B4F1FA7323D00879229 /* devBtn.m */,
 				063F5FBF1FA8223300D77C20 /* nmPlayRoomCell.h */,
@@ -546,6 +550,15 @@
 				063F5FD11FA8661800D77C20 /* TLSSDK.framework */,
 			);
 			path = tencentIM;
+			sourceTree = "<group>";
+		};
+		0668D5971FAC55AD007EBB07 /* UUKeyboardInputView */ = {
+			isa = PBXGroup;
+			children = (
+				0668D5981FAC55AD007EBB07 /* UUKeyboardInputView.h */,
+				0668D5991FAC55AD007EBB07 /* UUKeyboardInputView.m */,
+			);
+			path = UUKeyboardInputView;
 			sourceTree = "<group>";
 		};
 		473AFBE0B31A66D467BB5EC6 /* Pods */ = {
@@ -804,6 +817,7 @@
 				06325B3A1FA7271700879229 /* SBJsonStreamParser.m in Sources */,
 				06325B121FA7243F00879229 /* SUNSlideSwitchView.m in Sources */,
 				063F5FE71FA876F200D77C20 /* Reachability.m in Sources */,
+				0668D59A1FAC55AE007EBB07 /* UUKeyboardInputView.m in Sources */,
 				06325AF81FA7197C00879229 /* nmBaseViewController.m in Sources */,
 				06325B061FA71B7100879229 /* nmLiveWatchTabbar.m in Sources */,
 				06325B3D1FA7271700879229 /* SBJsonStreamParserState.m in Sources */,

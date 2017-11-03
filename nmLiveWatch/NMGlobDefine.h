@@ -15,6 +15,7 @@
 #define TEXTFONT 13
 #define WECHATLOGIN @"wx522f1b9a1aa882e1"
 #define SYSTEMCOlOR [UIColor orangeColor]
+#define PLAYERVIEWHEADERHEIGHT 44.0
 //用户登陆地址
 #define REQUESTURL @"http://116.62.11.8/stlive"
 

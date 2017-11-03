@@ -34,7 +34,7 @@
     [super viewDidLoad];
     self.navigationItem.title = @"檬檬直播";
     MAINCATEGORYWHIGHT = 40;
-    proportionNum = 0.4;
+    proportionNum = 0;
     [self drawAdvButton];
     [self drawMainScrollView];
     [self drawSubCategoryList];

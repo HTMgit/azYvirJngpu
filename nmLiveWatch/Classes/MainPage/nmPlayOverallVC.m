@@ -117,16 +117,18 @@
     FlowLayout.itemSize = CGSizeMake(w, h);
     FlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     FlowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    
+    FlowLayout.headerReferenceSize = CGSizeMake(kNMDeviceWidth, 100);
     playRoomCollectionView =
     [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kNMDeviceWidth, kNMDeviceHeight - 64) collectionViewLayout:FlowLayout];
     [playRoomCollectionView registerClass:[nmPlayRoomCell class] forCellWithReuseIdentifier:@"GataWayCollectionCell"];
+    [playRoomCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerView"];
+    
     playRoomCollectionView.dataSource = self;
     playRoomCollectionView.delegate = self;
     playRoomCollectionView.showsHorizontalScrollIndicator = NO;
     playRoomCollectionView.showsVerticalScrollIndicator = NO;
     playRoomCollectionView.alwaysBounceVertical = YES; //解决 当cell很少的情况下（没有占满屏幕），collectionView不能拖动的问题，
-    playRoomCollectionView.bounces = NO;
+//    playRoomCollectionView.bounces = NO;
     playRoomCollectionView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:playRoomCollectionView];
     
@@ -155,6 +157,33 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     return 0;
+}
+
+-(UICollectionViewFlowLayout *)flowLayout{
+    UICollectionViewFlowLayout * flowLayout =[[UICollectionViewFlowLayout alloc]init];
+    flowLayout.headerReferenceSize = CGSizeMake(kNMDeviceWidth, 100);
+    return flowLayout;
+}
+
+-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    UICollectionReusableView *selfreusableview = nil;
+    if (kind == UICollectionElementKindSectionHeader) {
+        UICollectionReusableView *selfheaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerView" forIndexPath:indexPath];
+         selfreusableview = selfheaderView;
+    }
+    UIImageView * image = [[UIImageView alloc]init];
+    image.backgroundColor = [UIColor purpleColor];
+    [image sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@""]];
+    [selfreusableview addSubview: image];
+    [image mas_makeConstraints:^(MASConstraintMaker *make) {
+        // make.centerY.equalTo(selfreusableview.mas_centerY);
+        make.top.equalTo(selfreusableview.mas_top);
+        make.bottom.equalTo(selfreusableview.mas_bottom);
+        make.left.equalTo(selfreusableview.mas_left);
+        make.right.equalTo(selfreusableview.mas_right);
+        
+    }];
+    return selfreusableview;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
